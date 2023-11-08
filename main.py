@@ -19,10 +19,11 @@ class NoNameInBaseError(Exception):
     pass
 
 
-class Managment_Widget(QMainWindow):
+class Criteries_Widget(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('themes_window.ui', self)
+        uic.loadUi('criteries_window.ui', self)
+        self.setWindowTitle('CriteriesWindow')
         self.esse_1_btn.clicked.connect(self.show_criteries)
         self.esse_2_btn.clicked.connect(self.show_criteries)
         self.esse_3_btn.clicked.connect(self.show_criteries)
@@ -54,6 +55,7 @@ class Plagiat_Widget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('plagiat_window.ui', self)
+        self.setWindowTitle('PlagiatWindow')
         self.text1, self.text2 = set(), set()
         self.same_str_list.hide()
         self.first_btn.clicked.connect(self.get_first_f)
@@ -99,6 +101,7 @@ class Format_Widget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('format_window.ui', self)
+        self.setWindowTitle('FormatWindow')
         self.text_btn.clicked.connect(self.get_f)
 
     def get_f(self):
@@ -152,6 +155,7 @@ class Marks_Widget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('marks_window.ui', self)
+        self.setWindowTitle('MarksWindow')
         self.is_add = True
         self.edits = [self.understand_meaning_point_spin, self.argument_point_spin, self.subsequence_point_spin,
                       self.composition_point_spin, self.grammer_point_spin]
@@ -296,7 +300,7 @@ class Main_Widget(QMainWindow):
         self.inform_edit.hide()
 
     def show_window_themes(self):
-        self.w = Managment_Widget()
+        self.w = Criteries_Widget()
         self.w.show()
 
     def show_window_plagiat(self):
