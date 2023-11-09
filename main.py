@@ -19,7 +19,7 @@ class NoNameInBaseError(Exception):
     pass
 
 
-class Criteries_Widget(QMainWindow):
+class CriteriesWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('criteries_window.ui', self)
@@ -51,7 +51,7 @@ class Criteries_Widget(QMainWindow):
         self.label.setPixmap(self.pixmaps[int(self.sender().text()) - 1])
 
 
-class Plagiat_Widget(QMainWindow):
+class PlagiatWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('plagiat_window.ui', self)
@@ -97,7 +97,7 @@ class Plagiat_Widget(QMainWindow):
             self.same_str_list.clear()
 
 
-class Format_Widget(QMainWindow):
+class FormatWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('format_window.ui', self)
@@ -151,7 +151,7 @@ class Format_Widget(QMainWindow):
         self.tableWidget.setItem(1, 3, QTableWidgetItem(str(n)))
 
 
-class Marks_Widget(QMainWindow):
+class MarksWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('marks_window.ui', self)
@@ -288,7 +288,7 @@ class Marks_Widget(QMainWindow):
         self.hide_edits()
 
 
-class Main_Widget(QMainWindow):
+class MainWidget(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('main_window.ui', self)
@@ -300,19 +300,19 @@ class Main_Widget(QMainWindow):
         self.inform_edit.hide()
 
     def show_window_themes(self):
-        self.w = Criteries_Widget()
+        self.w = CriteriesWidget()
         self.w.show()
 
     def show_window_plagiat(self):
-        self.w = Plagiat_Widget()
+        self.w = PlagiatWidget()
         self.w.show()
 
     def show_window_format(self):
-        self.w = Format_Widget()
+        self.w = FormatWidget()
         self.w.show()
 
     def show_window_marks(self):
-        self.w = Marks_Widget()
+        self.w = MarksWidget()
         self.w.show()
 
     def show_inform(self):
@@ -324,6 +324,6 @@ class Main_Widget(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Main_Widget()
+    ex = MainWidget()
     ex.show()
     sys.exit(app.exec_())
