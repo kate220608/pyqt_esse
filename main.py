@@ -31,15 +31,25 @@ class NewStudentWidget(QMainWindow):
         fname = QFileDialog.getOpenFileName(
             self, 'Выбрать текст', '',
             '(*.txt)')[0]
-        self.text = open(fname).readlines()
+        self.text = open(fname).read()
 
     def save(self):
+        import sqlite3
         b_d = sqlite3.connect("students_rus_esse_base")
         cur = b_d.cursor()
         cur.execute("""INSERT INTO esse(text)
                                                 VALUES(?)""", (self.text,))
+        cur.execute("""INSERT INTO students_marks(name)
+                                                        VALUES(?)""", (self.name_edit.text(),))
+        b_d.commit()
+        id_text = cur.execute("""SELECT id FROM esse where text = ?""", (self.text, )).fetchall()[0][0]
+        id_student = cur.execute("""SELECT id FROM students_marks where name = ?""",
+                                 (self.name_edit.text(), )).fetchall()[0][0]
+        cur.execute("""INSERT INTO esse_students_mark(id_text, id_marks)
+                                                                VALUES(?, ?)""", (id_text, id_student))
         b_d.commit()
         b_d.close()
+        self.statusBar().showMessage("Успешно!")
 
 
 class CriteriesWidget(QMainWindow):
@@ -186,9 +196,6 @@ class MarksWidget(QMainWindow):
         for i in range(5):
             self.edits[i].hide()
             self.labels[i].hide()
-        self.statusBar = QStatusBar(self)
-        self.statusBar.move(40, 500)
-        self.statusBar.resize(500, 20)
         self.add_btn.clicked.connect(self.show_edits)
         self.delete_btn.clicked.connect(self.delete)
         self.change_btn.clicked.connect(self.show_edits)
@@ -210,7 +217,7 @@ class MarksWidget(QMainWindow):
             else:
                 self.is_add = True
         except NoNameError:
-            self.statusBar.showMessage("Вы не ввели имя!")
+            self.statusBar().showMessage("Вы не ввели имя!")
 
     def hide_edits(self):
         for i in range(5):
@@ -242,7 +249,7 @@ class MarksWidget(QMainWindow):
                      composition_point, grammer_point, main_mark))
         b_d.commit()
         b_d.close()
-        self.statusBar.showMessage("Успешно!")
+        self.statusBar().showMessage("Успешно!")
         self.hide_edits()
 
     def delete(self):
@@ -256,10 +263,10 @@ class MarksWidget(QMainWindow):
                             where name = ?""", (name,))
             b_d.commit()
             b_d.close()
-            self.statusBar.showMessage("Успешно!")
+            self.statusBar().showMessage("Успешно!")
             self.name_edit.setText('')
         except NoNameError:
-            self.statusBar.showMessage("Вы не ввели имя!")
+            self.statusBar().showMessage("Вы не ввели имя!")
 
     def show_change_edits(self):
         try:
@@ -274,7 +281,7 @@ class MarksWidget(QMainWindow):
             for i in range(5):
                 self.edits[i].setValue(res[0][i])
         except NoNameInBaseError:
-            self.statusBar.showMessage("Такого ученика нет базе данных.")
+            self.statusBar().showMessage("Такого ученика нет базе данных.")
             self.hide_edits()
 
     def change(self):
@@ -307,7 +314,7 @@ class MarksWidget(QMainWindow):
                                 WHERE name = ?""", (main_mark, self.name,))
         b_d.commit()
         b_d.close()
-        self.statusBar.showMessage("Успешно!")
+        self.statusBar().showMessage("Успешно!")
         self.hide_edits()
 
 
