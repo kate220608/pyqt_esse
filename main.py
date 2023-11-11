@@ -350,7 +350,6 @@ class MainWidget(QMainWindow):
             self.inform_edit.hide()
 
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MainWidget()
