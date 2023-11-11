@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>30</y>
+      <y>120</y>
       <width>681</width>
       <height>401</height>
      </rect>
@@ -33,6 +33,20 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="add_student_btn">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Добавить ученика</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="managment_btn">
          <property name="font">
@@ -79,7 +93,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Выставление оценок</string>
+          <string>Просмотр оценок</string>
          </property>
         </widget>
        </item>

@@ -19,6 +19,29 @@ class NoNameInBaseError(Exception):
     pass
 
 
+class NewStudentWidget(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('new_student.ui', self)
+        self.setWindowTitle('NewStudentWindow')
+        self.add_esse_btn.clicked.connect(self.get_f)
+        self.ok_btn.clicked.connect(self.save)
+
+    def get_f(self):
+        fname = QFileDialog.getOpenFileName(
+            self, 'Выбрать текст', '',
+            '(*.txt)')[0]
+        self.text = open(fname).readlines()
+
+    def save(self):
+        b_d = sqlite3.connect("students_rus_esse_base")
+        cur = b_d.cursor()
+        cur.execute("""INSERT INTO esse(text)
+                                                VALUES(?)""", (self.text,))
+        b_d.commit()
+        b_d.close()
+
+
 class CriteriesWidget(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -230,7 +253,7 @@ class MarksWidget(QMainWindow):
             b_d = sqlite3.connect("students_rus_esse_base")
             cur = b_d.cursor()
             cur.execute("""DELETE from students_marks
-                            where name = ?""", (name, ))
+                            where name = ?""", (name,))
             b_d.commit()
             b_d.close()
             self.statusBar.showMessage("Успешно!")
@@ -266,7 +289,7 @@ class MarksWidget(QMainWindow):
         cur = b_d.cursor()
         cur.execute("""UPDATE students_marks
                         SET understand_meaning_point = ?
-                        WHERE name = ?""", (understand_meaning_point, self.name, ))
+                        WHERE name = ?""", (understand_meaning_point, self.name,))
         cur.execute("""UPDATE students_marks
                                 SET argument_point = ?
                                 WHERE name = ?""", (argument_point, self.name,))
@@ -296,8 +319,13 @@ class MainWidget(QMainWindow):
         self.plagiat_btn.clicked.connect(self.show_window_plagiat)
         self.format_btn.clicked.connect(self.show_window_format)
         self.marks_btn.clicked.connect(self.show_window_marks)
+        self.add_student_btn.clicked.connect(self.new_student)
         self.inform_btn.clicked.connect(self.show_inform)
         self.inform_edit.hide()
+
+    def new_student(self):
+        self.w = NewStudentWidget()
+        self.w.show()
 
     def show_window_themes(self):
         self.w = CriteriesWidget()
@@ -320,6 +348,7 @@ class MainWidget(QMainWindow):
             self.inform_edit.show()
         else:
             self.inform_edit.hide()
+
 
 
 if __name__ == '__main__':
