@@ -294,7 +294,7 @@ class ResultWidget(QMainWindow, Ui_ResultWindow):
         cur = b_d.cursor()
         students = cur.execute("""SELECT name, main_mark from students_marks""").fetchall()
         b_d.close()
-        self.res_table.setRowCount(len(students) - 1)
+        self.res_table.setRowCount(len(students))
         for j in range(len(students)):
             self.res_table.setItem(j, 0, QTableWidgetItem(str(students[j][0])))
             self.res_table.setItem(j, 1, QTableWidgetItem(str(students[j][1])))
